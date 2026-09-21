@@ -1,0 +1,35 @@
+# AU4 Labs local / generated files
+uploads/
+.thumbnail
+
+# Backup assets
+au4-site/assets/*backup*
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Dependency / build folders
+node_modules/
+dist/
+build/
+out/
+
+# Logs
+*.log
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+.cache/
+*.tmp
+*.bak
