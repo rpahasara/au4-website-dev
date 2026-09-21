@@ -180,8 +180,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   top: 18px;
   left: 50%;
   transform: translateX(-50%);
-  width: calc(100% - 40px);
-  max-width: 1140px;
+  width: calc(100% - var(--x) * 2);
+  max-width: var(--max-w);
   height: 54px;
   padding: 4px 6px 4px 18px;
   display: flex;
@@ -646,22 +646,82 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   margin-bottom: 16px;
 }
 
-.logos {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.05em;
-  color: var(--ink);
-  opacity: 0.75;
-  transition: opacity .3s ease;
+/* Seamless, continuously looping logo marquee */
+/* Let the grid column shrink so the wide track is clipped, not expanded */
+.trust > div {
+  min-width: 0;
 }
 
-.logos:hover {
-  opacity: 0.95;
+.logo-marquee {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+
+.logo-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: logo-scroll 40s linear infinite;
+  will-change: transform;
+}
+
+.logo-marquee:hover .logo-track,
+.logo-marquee:focus-within .logo-track {
+  animation-play-state: paused;
+}
+
+.logo-group {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+
+.logo-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 30px;
+}
+
+.logo-mark {
+  height: 27px;
+  width: auto;
+  fill: var(--ink);
+  opacity: 0.66;
+  transition: opacity .25s ease;
+}
+
+.logo-item:hover .logo-mark {
+  opacity: 1;
+}
+
+@keyframes logo-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-25%); }
+}
+
+/* Respect reduced-motion: no animation, quietly scrollable row */
+@media (prefers-reduced-motion: reduce) {
+  .logo-track {
+    animation: none;
+    transform: none;
+  }
+  .logo-group[aria-hidden="true"] {
+    display: none;
+  }
+  .logo-marquee {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+  .logo-mark {
+    opacity: 0.72;
+  }
 }
 
 .stretch {
